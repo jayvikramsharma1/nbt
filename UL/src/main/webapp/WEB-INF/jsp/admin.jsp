@@ -171,7 +171,6 @@ $(function() {
 	getCallAjax("/findAllUsers");
    $('#edit-form-submit').click(function(e){
 	   e.preventDefault();
-	   //$('input').next().remove();
 	   console.log("Hello");
 	   console.log($('form[name=edit-form]').serialize());
 	   postCallAjax("/edit", $('form[name=edit-form]').serialize());
@@ -189,7 +188,6 @@ function postCallAjax(url, data) {
             xhr.setRequestHeader(header, token);
         },
         success : function(res) {       	
-       		//$('#user-container').html(res);
        		var resObj = JSON.parse(res);
        		console.log(resObj.length)
        		populateUserContent(resObj)
@@ -206,8 +204,6 @@ function getCallAjax(url) {
             xhr.setRequestHeader(header, token);
         },
         success : function(res) {       	
-       		//$('#user-container').html(res);
-       		//console.log(res);
        		var resObj = JSON.parse(res);
        		console.log(resObj.length);
        		populateUserContent(resObj)

@@ -47,12 +47,6 @@
       		<option value="ADMIN">Admin</option>
       	</select>
       </div>
-
-      <!-- <div class="checkbox mb-3">
-        <label>
-          <input type="checkbox" value="remember-me"> Remember me
-        </label>
-      </div> -->
       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
       <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
       <a class="btn btn-lg btn-primary btn-block" href="/">Sign in</a>

@@ -17,7 +17,6 @@
 
 </head>
 <body class="login-body">
-<%-- <form name='loginForm' action="<c:url value='j_spring_security_check' />" method='POST'> --%>
 	<form class="form-signin" name="loginForm" id="loginForm" action="/login" method="post">
       <div class="text-center mb-4">
         <img class="mb-4" src="/images/nb_icon.png" alt="no brokers icon" width="72" height="72">
@@ -46,19 +45,6 @@
         <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
         <label for="password">Password</label>
       </div>
-      
-      <!-- <div class="form-label-group">
-      	<select name="role" id="role" class="form-control" required>
-      		<option value="MEMBER">Member</option>
-      		<option value="ADMIN">Admin</option>
-      	</select>
-      </div> -->
-
-      <!-- <div class="checkbox mb-3"src/main/webapp/WEB-INF/jsp/index.jsp"">
-        <label>
-          <input type="checkbox" value="remember-me"> Remember me
-        </label>
-      </div> -->
       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
       <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
       <a class="btn btn-lg btn-primary btn-block" href="signup">Sign Up</a>

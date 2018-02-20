@@ -74,5 +74,12 @@ public class User {
 				+ ", roles=" + roles + "]";
 	}
 	
+	@PostPersist
+	void onPostPersist() {
+		System.out.println("#############################################################################");
+		System.out.println("Table Persisted now we can have a entry in Elastic search");
+		System.out.println("#############################################################################");
+	}
+	
 	
 }

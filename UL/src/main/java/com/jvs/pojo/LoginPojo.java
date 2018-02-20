@@ -1,6 +1,6 @@
 package com.jvs.pojo;
 
-public class loginPojo {
+public class LoginPojo {
 	String username;
 	String password;
 	public String getUsername() {

@@ -1,6 +1,6 @@
 package com.jvs.pojo;
 
-public class signupPojo {
+public class SignupPojo {
 	Long id;
 	String fullname;
 	String username;

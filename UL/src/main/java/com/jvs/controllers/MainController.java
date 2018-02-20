@@ -9,7 +9,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,8 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jvs.models.User;
-import com.jvs.pojo.loginPojo;
-import com.jvs.pojo.signupPojo;
+import com.jvs.pojo.LoginPojo;
+import com.jvs.pojo.SignupPojo;
 import com.jvs.services.UserService;
 
 
@@ -66,7 +69,7 @@ public class MainController {
 	
 	@PostMapping("/edit")
 	@ResponseBody
-	public String editUser(@ModelAttribute signupPojo signupPojo, BindingResult bindingResult, HttpServletRequest req,
+	public String editUser(@ModelAttribute SignupPojo signupPojo, BindingResult bindingResult, HttpServletRequest req,
 			HttpServletResponse res, HttpSession session) throws IOException {
 		if (session.getAttribute("roles").equals("ADMIN")) {
 			if (signupPojo != null && validateForm(signupPojo)) {
@@ -103,7 +106,7 @@ public class MainController {
 	
 	
 	@PostMapping("/signup")
-	public String doSignup(@ModelAttribute signupPojo signupPojo, BindingResult bindingResult, HttpServletRequest req, HttpServletResponse res, HttpSession session) throws IOException {
+	public String doSignup(@ModelAttribute SignupPojo signupPojo, BindingResult bindingResult, HttpServletRequest req, HttpServletResponse res, HttpSession session) throws IOException {
 		System.out.println(signupPojo);
 		if(validateForm(signupPojo) && !isUserAlreadyExist(signupPojo)){
 			User usr = new User();
@@ -166,7 +169,7 @@ public class MainController {
 	}
 	
 	@PostMapping("/login")
-	public String loginUser(@ModelAttribute loginPojo loginPojo, BindingResult bindingResult, HttpServletRequest req, HttpServletResponse res, HttpSession session) throws ServletException, IOException {
+	public String loginUser(@ModelAttribute @Valid LoginPojo loginPojo, BindingResult bindingResult, HttpServletRequest req, HttpServletResponse res, HttpSession session) throws ServletException, IOException {
 		System.out.println(loginPojo);
 		User user = validateUserLogin(loginPojo);
 		System.out.println(user);
@@ -185,7 +188,7 @@ public class MainController {
 		}
 	}
 	
-	public boolean validateForm(signupPojo signupPojo) {
+	public boolean validateForm(SignupPojo signupPojo) {
 		if(signupPojo.getPassword() != "" && signupPojo.getCnfPassword() != "" && signupPojo.getPassword().equals(signupPojo.getCnfPassword()) && signupPojo.getFullname() != "" && signupPojo.getRoles() != "" && signupPojo.getUsername() != "") {
 			return true;
 		}
@@ -194,13 +197,13 @@ public class MainController {
 		}
 	}
 	
-	public boolean checkFirstUser(signupPojo signupPojo) {
+	public boolean checkFirstUser(SignupPojo signupPojo) {
 		if(userService.getUserCount() < 1)
 			return true;
 		return false;
 	}
 	
-	public boolean isUserAlreadyExist(signupPojo signupPojo) {
+	public boolean isUserAlreadyExist(SignupPojo signupPojo) {
 		User usr = userService.findUserByUserName(signupPojo.getUsername());
 		if(usr == null) 
 			return false;
@@ -208,7 +211,7 @@ public class MainController {
 			return true;
 	}
 	
-	public User validateUserLogin(loginPojo loginPojo) {
+	public User validateUserLogin(LoginPojo loginPojo) {
 		
 		User user = userService.findUserByUserName(loginPojo.getUsername());
 		if (user != null && user.getId() > 0)

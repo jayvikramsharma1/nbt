@@ -6,6 +6,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
 <title>Sign Up</title>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></link>
@@ -20,7 +22,9 @@
         <img class="mb-4" src="/images/nb_icon.png" alt="" width="72" height="72">
         <h1 class="h3 mb-3 font-weight-normal">Signup Page</h1>
       </div>
-	 
+	 	<div class="text-center mb-4">
+        <h3 class="h3 mb-3 font-weight-normal" id="errors"></h3>
+      </div>
 	  <div class="form-label-group">
         <input type="text" name="fullname" id="fullname" class="form-control" placeholder="Full Name" required autofocus>
         <label for="fullname">Full Name</label>
@@ -47,10 +51,43 @@
       		<option value="ADMIN">Admin</option>
       	</select>
       </div>
+
+      
       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+      <button class="btn btn-lg btn-primary btn-block" type="submit" id="submit">Sign up</button>
       <a class="btn btn-lg btn-primary btn-block" href="/">Sign in</a>
       <p class="mt-5 mb-3 text-muted text-center">&copy; 2017-2018</p>
     </form>
+    <script>
+    		
+    	
+    	$('#username').blur(function(e) {
+    		let url = "/findUsers?username="+$('#username').val();
+    		getCallAjax(url);
+    	});
+    	
+    	function getCallAjax(url) {
+    		var token = $("meta[name='_csrf']").attr("content");
+    		var header = $("meta[name='_csrf_header']").attr("content");
+    		$.ajax({
+    	        url : url,
+    	        beforeSend: function(xhr) {
+    	            xhr.setRequestHeader(header, token);
+    	        },
+    	        success : function(res) {
+    	        	console.log(res);
+
+    	        }
+    	     }).done(function(data) {
+    	    	 console.log(data);
+    	    		if(data == $('#username').val()){
+    	    			$('#errors').html("Username already used");
+    	    		} else {
+    	    			$('#errors').html("");
+    	    		}
+    	     })
+    	}
+    </script>
+    
 </body>
 </html>

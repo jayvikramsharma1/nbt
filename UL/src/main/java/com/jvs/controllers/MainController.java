@@ -147,6 +147,16 @@ public class MainController {
 		return getJsonFromList(userService.findAllUsers());
 	}
 	
+	@GetMapping("/findUsers")
+	@ResponseBody
+	public String getUserByUserName(@RequestParam("username") String username) throws JsonGenerationException, JsonMappingException, IOException {
+		User user = userService.findUserByUserName(username);
+		if(user != null)
+			return user.getUsername();
+		else
+			return null;
+	}
+	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.removeAttribute("loginUser");
